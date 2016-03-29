@@ -8,6 +8,7 @@ Screenhero styled sharing for Redux apps
 - Broadcast multiple cursor to all peers, not just host
 - Sync input values?
 - Look for alternatives to [PeerJS](http://peerjs.com)
+- Look into making screens the same size with viewport and css scale transforms.
 
 ## Example
 
