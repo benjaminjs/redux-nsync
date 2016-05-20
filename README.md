@@ -1,5 +1,5 @@
 # redux-nsync
-Screenhero styled sharing for Redux apps  
+Screenhero styled sharing for Redux apps using WebRTC 
 
 ![Turn todo list to chat app](http://i.giphy.com/3o6EhNIo6hsXvJ8DoA.gif)
 ## TODO
