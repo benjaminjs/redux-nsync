@@ -5,11 +5,8 @@ Screenhero styled sharing for Redux apps using WebRTC
 ## TODO
 - Tests
 - Examples
-- Break-up monolithic file
-- Broadcast multiple cursor to all peers, not just host
-- Sync input values?
-- Look for alternatives to [PeerJS](http://peerjs.com)
-- Look into making screens the same size with viewport and css scale transforms.
+- Break-out sync state from view sync to support both Web and Mobile
+- Break-out Peerjs to Sync Connector APIs so it can be interchangable.
 
 ## Example
 
