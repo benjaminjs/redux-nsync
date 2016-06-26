@@ -7,6 +7,7 @@ Screenhero styled sharing for Redux apps using WebRTC
 - Examples
 - Break-out sync state from view sync to support both Web and Mobile
 - Break-out Peerjs to Sync Connector APIs so it can be interchangable.
+- Handle side-effects such as Network
 
 ## Example
 
