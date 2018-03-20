@@ -1,5 +1,5 @@
 {
-  "name": "@benjaminjs/redux-nsync",
+  "name": "redux-nsync",
   "version": "1.0.0",
   "description": "State sync for Redux apps",
   "main": "dist/index.js",
