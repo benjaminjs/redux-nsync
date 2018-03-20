@@ -9,8 +9,6 @@ jobs:
     steps:
       - checkout
 
-      - run: npm test
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -24,6 +22,8 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+    
+      - run: npm test
         
       - deploy:
           name: Deploy Master to NPM
