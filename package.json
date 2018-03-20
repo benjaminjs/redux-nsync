@@ -1,10 +1,12 @@
 {
   "name": "@benjaminjs/redux-nsync",
-  "version": "0.1.0",
-  "description": "Screenhero styled sharing for Redux apps",
+  "version": "1.0.0",
+  "description": "State sync for Redux apps",
   "main": "dist/index.js",
   "scripts": {
-    "test": "true"
+    "test": "jest --coverage",
+    "debug": "node --debug-brk --inspect ./node_modules/.bin/jest -i",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -21,5 +23,30 @@
     "lodash": "^4.6.1",
     "peerjs": "^0.3.14",
     "tiny-emitter": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.0",
+    "@types/node": "^9.4.7",
+    "@types/redux-mock-store": "0.0.13",
+    "jest": "^22.4.2",
+    "redux": "^3.7.2",
+    "redux-mock-store": "1.4.0",
+    "ts-jest": "^22.4.2",
+    "typescript": "^2.7.2"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testMatch": ["**/test/*.+(ts|tsx|js)"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   }
 }
