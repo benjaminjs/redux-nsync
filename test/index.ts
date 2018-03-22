@@ -15,6 +15,7 @@ describe("Connection is a Client", () => {
     type: "SWAG",
     payload: "CITY"
   };
+
   const initState = {
     swag: "city"
   };
@@ -84,33 +85,42 @@ describe("Connection is a Host", () => {
     type: "SWAG",
     payload: "CITY"
   };
+
   const initState = {
     swag: "city"
   };
+
   let store: MockStore<any>, connectedSync;
+
   beforeEach(async done => {
     mockConnector.isClient.mockReturnValue(false);
     mockConnector.isHost.mockReturnValue(true);
     mockConnector.onAction.mockImplementationOnce(cb => cb(action));
     mockConnector.onClientConnected.mockImplementationOnce(cb => cb(action));
     mockConnector.onConnection.mockReturnValue(Promise.resolve({}));
+
     connectedSync = Sync(<SyncConnector>mockConnector);
+
     return connectedSync.then(({ stateSync }) => {
       const mockStore = configureStore([stateSync]);
       store = mockStore(initState);
       done();
     });
   });
+
   afterEach(() => {
     store.clearActions();
     mockConnector.broadcast.mockClear();
   });
+
   test("Received events get piped in", () => {
     expect(store.getActions()[0]).toMatchObject(action);
   });
+
   test("On client connect broadcast state", () => {
     expect(mockConnector.broadcast.mock.calls[0][1]).toEqual(initState);
   });
+
   test("Local actions get passed through", () => {
     const testAction = {
       type: "swag"
@@ -118,6 +128,7 @@ describe("Connection is a Host", () => {
     store.dispatch(testAction);
     expect(store.getActions()[1]).toMatchObject(testAction);
   });
+
   test("Local actions get broadcast", () => {
     const testAction = {
       type: "swag"
@@ -125,6 +136,7 @@ describe("Connection is a Host", () => {
     store.dispatch(testAction);
     expect(mockConnector.broadcast.mock.calls[1][1]).toMatchObject(testAction);
   });
+
   test("Remote actions don't passed through", () => {
     const testAction = {
       type: "swag",

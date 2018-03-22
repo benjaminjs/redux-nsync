@@ -1,4 +1,4 @@
-import { AnyAction, MiddlewareAPI, Middleware } from "redux";
+import { Store, AnyAction, MiddlewareAPI, Middleware } from "redux";
 
 export interface SyncConnector {
   broadcast(type: string, payload): void;
@@ -14,7 +14,7 @@ export const ACTION_EVENT = "__$action";
 
 export const Sync = (
   connection: SyncConnector
-): Promise<{ stateSync: Middleware; state?: any }> => {
+): Promise<{ stateSync: Middleware; state?: Store<any> }> => {
   const stateSync = (store: MiddlewareAPI<any>) => {
     connection.onClientConnected(() =>
       connection.broadcast(CURRENT_STATE_EVENT, store.getState())
@@ -38,12 +38,10 @@ export const Sync = (
   };
 
   if (connection.isClient()) {
-    return connection.onConnection().then(state => {
-      return {
-        state,
-        stateSync
-      };
-    });
+    return connection.onConnection().then(state => ({
+      state,
+      stateSync
+    }));
   } else {
     return Promise.resolve({
       stateSync
