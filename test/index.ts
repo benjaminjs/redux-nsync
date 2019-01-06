@@ -7,7 +7,8 @@ const mockConnector = {
   isClient: jest.fn(),
   isHost: jest.fn(),
   onClientConnected: jest.fn(),
-  broadcast: jest.fn()
+  sendCurrentState: jest.fn(),
+  sendAction: jest.fn()
 };
 
 describe("Connection is a Client", () => {
@@ -41,7 +42,8 @@ describe("Connection is a Client", () => {
 
   afterEach(() => {
     store.clearActions();
-    mockConnector.broadcast.mockClear();
+    mockConnector.sendAction.mockClear();
+    mockConnector.sendCurrentState.mockClear();
   });
 
   test("Received events get piped in", () => {
@@ -55,7 +57,7 @@ describe("Connection is a Client", () => {
 
     store.dispatch(testAction);
 
-    expect(mockConnector.broadcast.mock.calls[0][1]).toMatchObject(testAction);
+    expect(mockConnector.sendAction.mock.calls[0][0]).toMatchObject(testAction);
   });
 
   test("Local actions don't passed through", () => {
@@ -110,7 +112,8 @@ describe("Connection is a Host", () => {
 
   afterEach(() => {
     store.clearActions();
-    mockConnector.broadcast.mockClear();
+    mockConnector.sendAction.mockClear();
+    mockConnector.sendCurrentState.mockClear();
   });
 
   test("Received events get piped in", () => {
@@ -118,7 +121,7 @@ describe("Connection is a Host", () => {
   });
 
   test("On client connect broadcast state", () => {
-    expect(mockConnector.broadcast.mock.calls[0][1]).toEqual(initState);
+    expect(mockConnector.sendCurrentState.mock.calls[0][1]).toEqual(initState);
   });
 
   test("Local actions get passed through", () => {
@@ -134,7 +137,7 @@ describe("Connection is a Host", () => {
       type: "swag"
     };
     store.dispatch(testAction);
-    expect(mockConnector.broadcast.mock.calls[1][1]).toMatchObject(testAction);
+    expect(mockConnector.sendAction.mock.calls[1][1]).toMatchObject(testAction);
   });
 
   test("Remote actions don't passed through", () => {

@@ -1,7 +1,8 @@
 import { Store, AnyAction, MiddlewareAPI, Middleware } from "redux";
 
 export interface SyncConnector {
-  broadcast(type: string, payload): void;
+  sendCurrentState(payload): void;
+  sendAction(action: AnyAction): void;
   onConnection(): Promise<any>;
   isClient(): boolean;
   isHost(): boolean;
@@ -9,15 +10,13 @@ export interface SyncConnector {
   onAction(callback: (action: AnyAction) => void): void;
 }
 
-export const CURRENT_STATE_EVENT = "__$current_state";
-export const ACTION_EVENT = "__$action";
 
 export const Sync = (
   connection: SyncConnector
 ): Promise<{ stateSync: Middleware; state?: Store<any> }> => {
   const stateSync = (store: MiddlewareAPI<any>) => {
     connection.onClientConnected(() =>
-      connection.broadcast(CURRENT_STATE_EVENT, store.getState())
+      connection.sendCurrentState(store.getState())
     );
 
     connection.onAction(action => {
@@ -27,7 +26,7 @@ export const Sync = (
 
     return next => (action: AnyAction) => {
       if (action.__$syncAction !== true) {
-        connection.broadcast(ACTION_EVENT, action);
+        connection.sendAction(action);
         if (connection.isClient()) return;
       } else if (connection.isHost()) {
         return;
